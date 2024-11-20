@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Repettion
+
+  datasource:
+    username:
+    password:
+    url: jdbc:postgresql://localhost:5432/telegram_db
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database: postgresql
+
+telegram:
+  username: reminder_77_bot
+  token: 7608703877:AAFwbuMhJ31VkBm7ZqCO2hMmyrr4MSZG63Q
