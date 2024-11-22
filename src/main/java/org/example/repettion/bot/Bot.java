@@ -1,7 +1,7 @@
 package org.example.repettion.bot;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.repettion.model.User;
+import org.example.repettion.entity.User;
 import org.example.repettion.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,35 +36,35 @@ public class Bot extends TelegramLongPollingBot {
 
         if (userWithID == null) {
             User user = new User();
-            user.setChat_id(update.getMessage().getChatId());
+            user.setChatID(update.getMessage().getChatId());
+            user.setLogin(update.getMessage().getFrom().getUserName());
             userService.addUser(user);
-            log.info("Регистрация user id {} ",user.getChat_id());
-            responseMessage(update, "Вы зарегистрированы");
+            log.info("Регистрация user id {} ",user.getChatID());
+            sendMessage(id, "Вы зарегистрированы");
             return;
         }
 
-        log.info("request chat id: " + update.getMessage().getChatId()
-                + ", message: " + update.getMessage().getText());
+        String messageText = update.getMessage().getText();
+        log.info("request chat id: " + id
+                + ", message: " + messageText);
 
         if (userWithID.getCountMessageCurrentDay() >= 5){
-            responseMessage(update,"вы превысили лимит сообщений");
+            sendMessage(id,"вы превысили лимит задач за день");
             return;
         }
 
 
-        responseMessage(update,"ваш запрос принят");
+        userService.addTaskToUser(messageText, userWithID);
+        sendMessage(id,"Ваша задача добавлена");
         userWithID.setCountMessageCurrentDay(userWithID.getCountMessageCurrentDay() + 1);
         userService.updateUser(userWithID);
-
-
-
-
     }
 
 
-    private void  responseMessage(Update update,String text){
+    public void  sendMessage(Long chatId,String text){
         SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(update.getMessage().getChatId());
+
+        sendMessage.setChatId(chatId);
         sendMessage.setText(text);
 
         try {

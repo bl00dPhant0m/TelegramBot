@@ -1,7 +1,7 @@
 package org.example.repettion.scheduler;
 
 import lombok.RequiredArgsConstructor;
-import org.example.repettion.model.User;
+import org.example.repettion.entity.User;
 import org.example.repettion.service.UserService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -21,7 +21,7 @@ public class MessageResetScheduler {
     void messageReset() {
         List<User> users = userService.findUsersWithMessages();
 
-        if (users == null || users.isEmpty()) {
+        if (users.isEmpty()) {
             return;
         }
 

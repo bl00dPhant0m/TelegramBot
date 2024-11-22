@@ -3,8 +3,8 @@ spring:
     name: Repettion
 
   datasource:
-    username:
-    password:
+    username: Kirill
+    password: 191919
     url: jdbc:postgresql://localhost:5432/telegram_db
     driver-class-name: org.postgresql.Driver
 

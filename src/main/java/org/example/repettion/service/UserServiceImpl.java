@@ -1,7 +1,8 @@
 package org.example.repettion.service;
 
 import lombok.RequiredArgsConstructor;
-import org.example.repettion.model.User;
+import org.example.repettion.entity.Task;
+import org.example.repettion.entity.User;
 import org.example.repettion.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
@@ -33,5 +34,17 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findUsersWithMessages() {
         return userRepository.findUsersWithMessages();
+    }
+
+    @Override
+    public void addTaskToUser(String message, User user) {
+        Task task = new Task(message);
+        task.setUser(user);
+        user.getTasks().add(task);
+    }
+
+    @Override
+    public List<User> findUsersWithTasks() {
+        return userRepository.findUsersWithTasks();
     }
 }
